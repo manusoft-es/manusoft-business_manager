@@ -9,6 +9,8 @@
  */
 defined('ABSPATH') or die('No tienes permiso para hacer eso.');
 
+require_once plugin_dir_path(__FILE__).'inc/manusoft-bussman_functions.php';
+
 // Método a ejecutar al activar el plugin
 register_activation_hook( __FILE__, 'manusoft_bussman_activation' );
 function manusoft_bussman_activation() {
@@ -19,11 +21,16 @@ function manusoft_bussman_activation() {
     manusoft_bussman_create_table_tipos_tarea();
     manusoft_bussman_create_table_estados_tarea();
     manusoft_bussman_create_table_prioridades_tarea();
-    //manusoft_bussman_create_table_tareas();
+    manusoft_bussman_create_table_tareas();
     manusoft_bussman_create_table_comentarios_tarea();
     //manusoft_bussman_create_table_productos();
     //manusoft_bussman_create_table_presupuestos();
     //manusoft_bussman_create_table_facturas();
+    
+    manusoft_bussman_insert_table_estados_proyecto();
+    manusoft_bussman_insert_table_tipos_tarea();
+    manusoft_bussman_insert_table_estados_tarea();
+    manusoft_bussman_insert_table_prioridades_tarea();
 }
 
 // Método a ejecutar al desactivar el plugin
@@ -31,7 +38,7 @@ register_deactivation_hook( __FILE__, 'manusoft_bussman_desactivation' );
 function manusoft_bussman_desactivation() {
     manusoft_bussman_delete_table_config();
     manusoft_bussman_delete_table_comentarios_tarea();
-    //manusoft_bussman_delete_table_tareas();
+    manusoft_bussman_delete_table_tareas();
     manusoft_bussman_delete_table_prioridades_tarea();
     manusoft_bussman_delete_table_estados_tarea();
     manusoft_bussman_delete_table_tipos_tarea();
@@ -104,9 +111,41 @@ function manusoft_bussman_create_table_estados_proyecto() {
     dbDelta($sql);
 }
 
+// Población de la tabla ESTADOS_PROYECTO
+function manusoft_bussman_insert_table_estados_proyecto() {
+    global $wpdb;
+    $sql = "INSERT INTO `".$wpdb->prefix."manusoft_bussman_estados_proyecto` (`name`, `id_next`, `id_previous`) VALUES
+                ('Nuevo', 2, 0),
+                ('Pendiente de presupuesto', 3, 1),
+                ('En proceso', 4, 2),
+                ('Finalizado', 0, 3),
+                ('Rechazado', 0, 2);";
+    require_once( ABSPATH."wp-admin/includes/upgrade.php");
+    dbDelta($sql);
+}
+
 // Creación de la tabla TAREAS
 function manusoft_bussman_create_table_tareas() {
-    
+    global $wpdb;
+    $sql = "CREATE TABLE `".$wpdb->prefix."manusoft_bussman_tareas` (
+                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                `id_proyecto` bigint(20) unsigned NOT NULL,
+                `name` varchar(255) COLLATE 'utf8_spanish_ci' NOT NULL,
+                `description` text COLLATE 'utf8_spanish_ci' NULL,
+                `id_estado` bigint(20) unsigned NOT NULL,
+                `id_prioridad` bigint(20) unsigned NOT NULL,
+                `id_tipo` bigint(20) unsigned NOT NULL,
+                `start_date` date NULL,
+                `end_date` date NULL,
+                `planned_hours` int(5) unsigned NULL,
+                `used_hours` int(5) unsigned NULL,
+                FOREIGN KEY (`id_proyecto`) REFERENCES `".$wpdb->prefix."manusoft_bussman_proyectos` (`id`) ON DELETE CASCADE,
+                FOREIGN KEY (`id_estado`) REFERENCES `".$wpdb->prefix."manusoft_bussman_estados_tarea` (`id`) ON DELETE RESTRICT,
+                FOREIGN KEY (`id_prioridad`) REFERENCES `".$wpdb->prefix."manusoft_bussman_prioridades_tarea` (`id`) ON DELETE RESTRICT,
+                FOREIGN KEY (`id_tipo`) REFERENCES `".$wpdb->prefix."manusoft_bussman_tipos_tarea` (`id`) ON DELETE RESTRICT
+            ) ENGINE='InnoDB' COLLATE 'utf8_spanish_ci';";
+    require_once( ABSPATH."wp-admin/includes/upgrade.php");
+    dbDelta($sql);
 }
 
 // Creación de la tabla ESTADOS_TAREA
@@ -122,6 +161,19 @@ function manusoft_bussman_create_table_estados_tarea() {
     dbDelta($sql);
 }
 
+// Población de la tabla ESTADOS_TAREA
+function manusoft_bussman_insert_table_estados_tarea() {
+    global $wpdb;
+    $sql = "INSERT INTO `".$wpdb->prefix."manusoft_bussman_estados_tarea` (`name`, `id_next`, `id_previous`) VALUES
+                ('Nuevo', 2, 0),
+                ('En proceso', 3, 1),
+                ('En revisión', 4, 2),
+                ('Finalizada', 0, 3),
+                ('Rechazada', 2, 3);";
+    require_once( ABSPATH."wp-admin/includes/upgrade.php");
+    dbDelta($sql);
+}
+
 // Creación de la tabla TIPOS_TAREA
 function manusoft_bussman_create_table_tipos_tarea() {
     global $wpdb;
@@ -129,6 +181,19 @@ function manusoft_bussman_create_table_tipos_tarea() {
                 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
                 `name` varchar(255) COLLATE 'utf8_spanish_ci' NOT NULL
             ) ENGINE='InnoDB' COLLATE 'utf8_spanish_ci';";
+    require_once( ABSPATH."wp-admin/includes/upgrade.php");
+    dbDelta($sql);
+}
+
+// Población de la tabla TIPOS_TAREA
+function manusoft_bussman_insert_table_tipos_tarea() {
+    global $wpdb;
+    $sql = "INSERT INTO `".$wpdb->prefix."manusoft_bussman_tipos_tarea` (`name`) VALUES
+                ('Soporte'),
+                ('Desarrollo'),
+                ('Mantenimiento'),
+                ('Análisis'),
+                ('Diseño');";
     require_once( ABSPATH."wp-admin/includes/upgrade.php");
     dbDelta($sql);
 }
@@ -143,9 +208,32 @@ function manusoft_bussman_create_table_prioridades_tarea() {
     dbDelta($sql);
 }
 
+function manusoft_bussman_insert_table_prioridades_tarea() {
+    global $wpdb;
+    $sql = "INSERT INTO `".$wpdb->prefix."manusoft_bussman_prioridades_tarea` (`name`) VALUES
+                ('Muy baja'),
+                ('Baja'),
+                ('Media'),
+                ('Alta'),
+                ('Muy alta'),
+                ('Urgente'),
+                ('Inmediata');";
+    require_once( ABSPATH."wp-admin/includes/upgrade.php");
+    dbDelta($sql);
+}
+
 // Creación de la tabla COMENTARIOS_TAREA
 function manusoft_bussman_create_table_comentarios_tarea() {
-    
+    global $wpdb;
+    $sql = "CREATE TABLE `".$wpdb->prefix."manusoft_bussman_comentarios_tarea` (
+                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                `id_tarea` bigint(20) unsigned NOT NULL,
+                `moment` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+                `comentario` text COLLATE 'utf8_swedish_ci' NOT NULL,
+                FOREIGN KEY (`id_tarea`) REFERENCES `".$wpdb->prefix."manusoft_bussman_tareas` (`id`) ON DELETE CASCADE
+            ) ENGINE='InnoDB' COLLATE 'utf8_spanish_ci';";
+    require_once( ABSPATH."wp-admin/includes/upgrade.php");
+    dbDelta($sql);
 }
 
 // Creación de la tabla PRODUCTOS
