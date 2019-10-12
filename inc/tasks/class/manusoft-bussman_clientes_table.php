@@ -9,7 +9,8 @@ class manusoft_bussman_clientes_list_table extends WP_List_Table {
     
     function get_columns() {
         $columns = array (
-            'ID' => '<b>#</b>',
+            'cb' => '<input type="checkbox" />',
+            'id' => '<b>#</b>',
             'name' => '<b>Nombre</b>',
             'address' => '<b>Direccion</b>',
             'cif' => '<b>CIF/DNI</b>',
@@ -19,31 +20,74 @@ class manusoft_bussman_clientes_list_table extends WP_List_Table {
         return $columns;
     }
     
+    function get_sortable_columns() {
+        $sortable_columns = array(
+            'id' => array('id',false),
+            'name'  => array('name',false)
+        );
+        return $sortable_columns;
+    }
+    
     function prepare_items() {
         $columns = $this->get_columns();
         $hidden = array();
         $perPage = 5;
         $currentPage = $this->get_pagenum();
-        $count_clientes = wp_count_posts('wpcf7_contact_form');
-        $totalItems  = $count_clientes->publish;
+        $count_clientes = manusoft_bussman_count_clientes($_GET['s']);
+        $totalItems  = $count_clientes;
         
         $this->set_pagination_args(array(
             'total_items' => $totalItems,
             'per_page'    => $perPage
         ));
 
-        $sortable = array();
+        $sortable = $this->get_sortable_columns();
 
         $this->_column_headers = array($columns, $hidden, $sortable);
-        $this->items = manusoft_cf2pdf_get_all_forms($perPage, $currentPage);
+        $this->items = manusoft_bussman_get_clientes($perPage, $currentPage, $_GET['orderby'], $_GET['order'], $_GET['s']);
+        $this->process_bulk_action();
+        
+        $_SERVER['REQUEST_URI'] = remove_query_arg( '_wp_http_referer', $_SERVER['REQUEST_URI'] );
+    }
+    
+    function get_bulk_actions() {
+        $actions = array(
+            'delete_all' => 'Eliminar'
+        );
+        return $actions;
+    }
+    
+    function process_bulk_action() {
+        //Detect when a bulk action is being triggered...
+        if( 'delete_all' === $this->current_action() ) {
+            
+        }
+    }
+    
+    function column_cb($item) {
+        return sprintf(
+            '<input type="checkbox" name="clientes[]" value="%s" />',
+            $item['id']
+            );
+    }
+    
+    function column_name($item) {
+        $actions = array(
+            'edit'      => sprintf('<a href="?page=%s&action=%s&id=%s&paged=%s">Editar</a>','manusoft-business_manager/inc/tasks/pages/manusoft-bussman_clientes_new.php','edit',$item['id'],$this->get_pagenum()),
+            'delete'    => sprintf('<a href="?page=%s&action=%s&id=%s&paged=%s">Eliminar</a>',$_REQUEST['page'],'delete',$item['id'],$this->get_pagenum()),
+        );
+        return sprintf('%1$s %2$s', $item['name'], $this->row_actions($actions) );
     }
     
     function column_default($item,$column_name) {
         switch ($column_name) {
-            case 'manusoft_cf2pdf_form_name':
-                return '<b><a href="?id='.$item['id'].'&page=manusoft-cf2pdf/inc/manusoft_cf2pdf_data_page.php">'.$item['name'].'</a></b>';
-            case 'manusoft_cf2pdf_form_total':
-                return $item['total'];
+            case 'id':
+            case 'name':
+            case 'address':
+            case 'cif':
+            case 'email':
+            case 'phone':
+                return $item[$column_name];
             default:
                 return print_r($item,true); //Show the whole array for troubleshooting purposes
         }

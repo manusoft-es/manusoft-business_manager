@@ -10,6 +10,32 @@
 defined('ABSPATH') or die('No tienes permiso para hacer eso.');
 
 require_once plugin_dir_path(__FILE__).'inc/manusoft-bussman_functions.php';
+require_once plugin_dir_path(__FILE__).'inc/tasks/class/manusoft-bussman_clientes_table.php';
+require_once plugin_dir_path(__FILE__).'inc/tasks/functions/manusoft-bussman_clientes_functions.php';
+
+// Insercción del fichero con CSS privado propio para la parte de tareas
+function load_manusoft_bussman_tasks_style() {
+    wp_register_style('manusoft-bussman_tasks_style', plugins_url('/css/manusoft-bussman_tasks_style.css', __FILE__));
+    wp_enqueue_style('manusoft-bussman_tasks_style');
+    wp_enqueue_style('thickbox');
+}
+add_action('admin_enqueue_scripts', 'load_manusoft_bussman_tasks_style');
+
+// Insercción del fichero con CSS privado propio para la parte de presupuestos
+function load_manusoft_bussman_budgets_style() {
+    wp_register_style('manusoft-bussman_budgets_style', plugins_url('/css/manusoft-bussman_budgets_style.css', __FILE__));
+    wp_enqueue_style('manusoft-bussman_budgets_style');
+    wp_enqueue_style('thickbox');
+}
+add_action('admin_enqueue_scripts', 'load_manusoft_bussman_budgets_style');
+
+// Insercción del fichero con CSS privado propio para la parte de facturas
+function load_manusoft_bussman_invoices_style() {
+    wp_register_style('manusoft-bussman_invoices_style', plugins_url('/css/manusoft-bussman_invoices_style.css', __FILE__));
+    wp_enqueue_style('manusoft-bussman_invoices_style');
+    wp_enqueue_style('thickbox');
+}
+add_action('admin_enqueue_scripts', 'load_manusoft_bussman_invoices_style');
 
 // Método a ejecutar al activar el plugin
 register_activation_hook( __FILE__, 'manusoft_bussman_activation' );
@@ -71,13 +97,12 @@ function manusoft_bussman_create_table_config() {
 function manusoft_bussman_create_table_clientes() {
     global $wpdb;
     $sql = "CREATE TABLE `".$wpdb->prefix."manusoft_bussman_clientes` (
-                `ID` bigint(20) unsigned NOT NULL,
+                `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
                 `name` varchar(255) COLLATE 'utf8_spanish_ci' NOT NULL,
                 `address` text COLLATE 'utf8_spanish_ci' NULL,
                 `cif` varchar(9) COLLATE 'utf8_spanish_ci' NULL,
                 `email` varchar(255) COLLATE 'utf8_spanish_ci' NULL,
-                `phone` int(9) unsigned NULL,
-                FOREIGN KEY (`ID`) REFERENCES `".$wpdb->prefix."users` (`ID`) ON DELETE RESTRICT
+                `phone` int(9) unsigned NULL
             ) ENGINE='InnoDB' COLLATE 'utf8_spanish_ci';";
     require_once( ABSPATH."wp-admin/includes/upgrade.php");
     dbDelta($sql);
