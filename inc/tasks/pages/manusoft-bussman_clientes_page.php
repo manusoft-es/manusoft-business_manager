@@ -3,6 +3,7 @@ defined('ABSPATH') or die('No tienes permiso para hacer eso.');
 if (!current_user_can('manage_options'))  {
     wp_die( __('No tienes suficientes permisos para acceder a esta página.') );
 } else {
+    $ClientesListTable = new manusoft_bussman_clientes_list_table();
     if ($_POST['action'] == "Guardar") {
         $name = $_POST['name'];
         $address = $_POST['address'];
@@ -26,15 +27,23 @@ if (!current_user_can('manage_options'))  {
             }
         }
     } else if ($_GET['action'] == 'delete') {
-        $delete_result = manusoft_bussman_delete_cliente($_GET['id']);
+        $ids = [];
+        array_push($ids,$_GET['id']);
+        $delete_result = manusoft_bussman_delete_cliente($ids);
+        if ($delete_result) {
+            $message_result = "<div class='notice manusoft_bussman_updated'>El cliente se ha eliminado correctamente.</div>";
+        } else {
+            $message_result = "<div class='notice manusoft_bussman_error'>Ha ocurrido un error eliminado el cliente. Inténtalo de nuevo más tarde.</div>";
+        }
+    } else if( 'delete_all' === $ClientesListTable->current_action() ) {
+        $delete_result = manusoft_bussman_delete_cliente($_GET['clientes']);
+        
         if ($delete_result) {
             $message_result = "<div class='notice manusoft_bussman_updated'>El cliente se ha eliminado correctamente.</div>";
         } else {
             $message_result = "<div class='notice manusoft_bussman_error'>Ha ocurrido un error eliminado el cliente. Inténtalo de nuevo más tarde.</div>";
         }
     }
-    
-    $ClientesListTable = new manusoft_bussman_clientes_list_table();
     $ClientesListTable->prepare_items();
 ?>
 <div class="wrap">
@@ -46,8 +55,8 @@ if (!current_user_can('manage_options'))  {
 		<form method="get">
 			<input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
 			<?php $ClientesListTable->search_box('Buscar', 'search_id'); ?>
+			<?php $ClientesListTable->display(); ?>
         </form>
-		<?php $ClientesListTable->display(); ?>
 	</div>
 </div>
 <?php

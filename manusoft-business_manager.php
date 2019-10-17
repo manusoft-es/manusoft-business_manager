@@ -12,6 +12,8 @@ defined('ABSPATH') or die('No tienes permiso para hacer eso.');
 require_once plugin_dir_path(__FILE__).'inc/manusoft-bussman_functions.php';
 require_once plugin_dir_path(__FILE__).'inc/tasks/class/manusoft-bussman_clientes_table.php';
 require_once plugin_dir_path(__FILE__).'inc/tasks/functions/manusoft-bussman_clientes_functions.php';
+require_once plugin_dir_path(__FILE__).'inc/tasks/class/manusoft-bussman_proyectos_table.php';
+require_once plugin_dir_path(__FILE__).'inc/tasks/functions/manusoft-bussman_proyectos_functions.php';
 
 // Insercción del fichero con CSS privado propio para la parte de tareas
 function load_manusoft_bussman_tasks_style() {

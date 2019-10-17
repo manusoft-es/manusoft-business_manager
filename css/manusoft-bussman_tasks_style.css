@@ -26,6 +26,7 @@ th#id {
     background-color: #f8d7da;
     border-color: #f5c6cb;
     border-left-color: #dc3232;
+    padding: 10px;
 }
 
 .manusoft_bussman_updated {
@@ -33,4 +34,5 @@ th#id {
     background-color: #d4edda;
     border-color: #c3e6cb;
     border-left-color: #46b450;
+    padding: 10px;
 }

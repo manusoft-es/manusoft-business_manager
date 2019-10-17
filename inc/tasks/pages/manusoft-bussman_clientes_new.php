@@ -13,7 +13,7 @@ if (!current_user_can('manage_options'))  {
     }
 ?>
 	<div class="wrap">
-		<h1 class="wp-heading-inline">ManuSoft Business Manager - <?php echo $nuevo_edit; ?> Cliente</h1>
+		<h1 class="wp-heading-inline">ManuSoft Business Manager - <?php echo $nuevo_edit; ?> cliente</h1>
         <hr class="wp-header-end">
         <form class="manusoft_bussman_form" action="admin.php?page=manusoft-business_manager/inc/tasks/pages/manusoft-bussman_clientes_page.php&paged=<?php echo $_GET['paged']; ?>" method="post">
         	<?php if ($_GET['action'] == 'edit' && isset($_GET['id'])) { ?>

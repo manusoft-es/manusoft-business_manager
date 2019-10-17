@@ -147,10 +147,10 @@ function manusoft_bussman_edit_cliente($id,$name,$address,$cif,$email,$phone) {
 }
 
 // Método para eliminar un cliente
-function manusoft_bussman_delete_cliente($id) {
+function manusoft_bussman_delete_cliente($ids) {
     global $wpdb;
     $table = $wpdb->prefix.'manusoft_bussman_clientes';
-    $res = $wpdb->delete($table, array('id' => $id));
+    $res = $wpdb->query("DELETE FROM ".$table." WHERE id IN (".implode(",",$ids).")");
     
     if ($res == 0) {
         return false;
@@ -158,4 +158,5 @@ function manusoft_bussman_delete_cliente($id) {
         return true;
     }
 }
+
 ?>
