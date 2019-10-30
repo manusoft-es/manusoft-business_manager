@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') or die('No tienes permiso para hacer eso.');
 if (!current_user_can('manage_options'))  {
-    wp_die( __('No tienes suficientes permisos para acceder a esta pÃ¡gina.') );
+    wp_die( __('No tienes suficientes permisos para acceder a esta página.') );
 } else {
     if ($_GET['action'] == 'edit' && isset($_GET['id'])) {
         $nuevo_edit = "Editar";
@@ -62,7 +62,7 @@ if (!current_user_can('manage_options'))  {
         							</tr>
         							<tr>
         								<th scope="row">
-        									<label for="manusoft_bussman_phone">TelÃ©fono</label>
+        									<label for="manusoft_bussman_phone">Teléfono</label>
         								</th>
         								<td>
         									<input type="text" id="manusoft_bussman_phone" name="phone" maxlength="9" value="<?php echo $cliente['phone']; ?>" size="9" style="width:auto;" class="regular-text" />

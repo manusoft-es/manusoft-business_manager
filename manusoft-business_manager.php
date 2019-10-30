@@ -39,7 +39,7 @@ function load_manusoft_bussman_invoices_style() {
 }
 add_action('admin_enqueue_scripts', 'load_manusoft_bussman_invoices_style');
 
-// MÃ©todo a ejecutar al activar el plugin
+// Método a ejecutar al activar el plugin
 register_activation_hook( __FILE__, 'manusoft_bussman_activation' );
 function manusoft_bussman_activation() {
     manusoft_bussman_create_table_config();
@@ -61,7 +61,7 @@ function manusoft_bussman_activation() {
     manusoft_bussman_insert_table_prioridades_tarea();
 }
 
-// MÃ©todo a ejecutar al desactivar el plugin
+// Método a ejecutar al desactivar el plugin
 register_deactivation_hook( __FILE__, 'manusoft_bussman_desactivation' );
 function manusoft_bussman_desactivation() {
     manusoft_bussman_delete_table_config();
@@ -219,7 +219,7 @@ function manusoft_bussman_insert_table_tipos_tarea() {
                 ('Soporte'),
                 ('Desarrollo'),
                 ('Mantenimiento'),
-                ('AnÃ¡lisis'),
+                ('Análisis'),
                 ('DiseÃ±o');";
     require_once( ABSPATH."wp-admin/includes/upgrade.php");
     dbDelta($sql);
@@ -281,84 +281,84 @@ function manusoft_bussman_create_table_facturas() {
 // Borrado de la tabla CONFIG
 function manusoft_bussman_delete_table_config() {
     global $wpdb;
-    $query = "DROP TABLE IF EXISTS ".$wpdb->prefix."manusoft_bussman_config;";
-    $wpdb->get_var($query);
+    $sql = "DROP TABLE IF EXISTS ".$wpdb->prefix."manusoft_bussman_config;";
+    $wpdb->get_var($sql);
 }
 
 // Borrado de la tabla CLIENTES
 function manusoft_bussman_delete_table_clientes() {
     global $wpdb;
-    $query = "DROP TABLE IF EXISTS ".$wpdb->prefix."manusoft_bussman_clientes;";
-    $wpdb->get_var($query);
+    $sql = "DROP TABLE IF EXISTS ".$wpdb->prefix."manusoft_bussman_clientes;";
+    $wpdb->get_var($sql);
 }
 
 // Borrado de la tabla PROYECTOS
 function manusoft_bussman_delete_table_proyectos() {
     global $wpdb;
-    $query = "DROP TABLE IF EXISTS ".$wpdb->prefix."manusoft_bussman_proyectos;";
-    $wpdb->get_var($query);
+    $sql = "DROP TABLE IF EXISTS ".$wpdb->prefix."manusoft_bussman_proyectos;";
+    $wpdb->get_var($sql);
 }
 
 // Borrado de la tabla ESTADOS_PROYECTO
 function manusoft_bussman_delete_table_estados_proyecto() {
     global $wpdb;
-    $query = "DROP TABLE IF EXISTS ".$wpdb->prefix."manusoft_bussman_estados_proyecto;";
-    $wpdb->get_var($query);
+    $sql = "DROP TABLE IF EXISTS ".$wpdb->prefix."manusoft_bussman_estados_proyecto;";
+    $wpdb->get_var($sql);
 }
 
 // Borrado de la tabla TAREAS
 function manusoft_bussman_delete_table_tareas() {
     global $wpdb;
-    $query = "DROP TABLE IF EXISTS ".$wpdb->prefix."manusoft_bussman_tareas;";
-    $wpdb->get_var($query);
+    $sql = "DROP TABLE IF EXISTS ".$wpdb->prefix."manusoft_bussman_tareas;";
+    $wpdb->get_var($sql);
 }
 
 // Borrado de la tabla ESTADOS_TAREA
 function manusoft_bussman_delete_table_estados_tarea() {
     global $wpdb;
-    $query = "DROP TABLE IF EXISTS ".$wpdb->prefix."manusoft_bussman_estados_tarea;";
-    $wpdb->get_var($query);
+    $sql = "DROP TABLE IF EXISTS ".$wpdb->prefix."manusoft_bussman_estados_tarea;";
+    $wpdb->get_var($sql);
 }
 
 // Borrado de la tabla TIPOS_TAREA
 function manusoft_bussman_delete_table_tipos_tarea() {
     global $wpdb;
-    $query = "DROP TABLE IF EXISTS ".$wpdb->prefix."manusoft_bussman_tipos_tarea;";
-    $wpdb->get_var($query);
+    $sql = "DROP TABLE IF EXISTS ".$wpdb->prefix."manusoft_bussman_tipos_tarea;";
+    $wpdb->get_var($sql);
 }
 
 // Borrado de la tabla TIPOS_TAREA
 function manusoft_bussman_delete_table_prioridades_tarea() {
     global $wpdb;
-    $query = "DROP TABLE IF EXISTS ".$wpdb->prefix."manusoft_bussman_prioridades_tarea;";
-    $wpdb->get_var($query);
+    $sql = "DROP TABLE IF EXISTS ".$wpdb->prefix."manusoft_bussman_prioridades_tarea;";
+    $wpdb->get_var($sql);
 }
 
 // Borrado de la tabla COMENTARIOS_TAREA
 function manusoft_bussman_delete_table_comentarios_tarea() {
     global $wpdb;
-    $query = "DROP TABLE IF EXISTS ".$wpdb->prefix."manusoft_bussman_comentarios_tarea;";
-    $wpdb->get_var($query);
+    $sql = "DROP TABLE IF EXISTS ".$wpdb->prefix."manusoft_bussman_comentarios_tarea;";
+    $wpdb->get_var($sql);
 }
 
 // Borrado de la tabla PRODUCTOS
 function manusoft_bussman_delete_table_productos() {
     global $wpdb;
-    $query = "DROP TABLE IF EXISTS ".$wpdb->prefix."manusoft_bussman_productos;";
-    $wpdb->get_var($query);
+    $sql = "DROP TABLE IF EXISTS ".$wpdb->prefix."manusoft_bussman_productos;";
+    $wpdb->get_var($sql);
 }
 
 // Borrado de la tabla PRESUPUESTOS
 function manusoft_bussman_delete_table_presupuestos() {
     global $wpdb;
-    $query = "DROP TABLE IF EXISTS ".$wpdb->prefix."manusoft_bussman_presupuestos;";
-    $wpdb->get_var($query);
+    $sql = "DROP TABLE IF EXISTS ".$wpdb->prefix."manusoft_bussman_presupuestos;";
+    $wpdb->get_var($sql);
 }
 
 // Borrado de la tabla FACTURAS
 function manusoft_bussman_delete_table_facturas() {
     global $wpdb;
-    $query = "DROP TABLE IF EXISTS ".$wpdb->prefix."manusoft_bussman_facturas;";
-    $wpdb->get_var($query);
+    $sql = "DROP TABLE IF EXISTS ".$wpdb->prefix."manusoft_bussman_facturas;";
+    $wpdb->get_var($sql);
 }
 ?>

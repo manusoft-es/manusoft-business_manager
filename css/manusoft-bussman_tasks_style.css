@@ -21,6 +21,18 @@ th#id {
 	width: 10%;
 }
 
+.manusoft_bussman_form table {
+	width: 100%;
+}
+
+.manusoft_bussman_form input[type=text] {
+	width: 90%;
+}
+
+.manusoft_bussman_form select {
+	width: 90%;
+}
+
 .manusoft_bussman_error {
 	color: #721c24;
     background-color: #f8d7da;

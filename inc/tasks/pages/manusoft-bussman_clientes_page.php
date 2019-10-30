@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') or die('No tienes permiso para hacer eso.');
 if (!current_user_can('manage_options'))  {
-    wp_die( __('No tienes suficientes permisos para acceder a esta pÃ¡gina.') );
+    wp_die( __('No tienes suficientes permisos para acceder a esta página.') );
 } else {
     $ClientesListTable = new manusoft_bussman_clientes_list_table();
     if ($_POST['action'] == "Guardar") {
@@ -16,14 +16,14 @@ if (!current_user_can('manage_options'))  {
             if ($save_result) {
                 $message_result = "<div class='notice manusoft_bussman_updated'>El cliente se ha modificado correctamente.</div>";
             } else {
-                $message_result = "<div class='notice manusoft_bussman_error'>Ha ocurrido un error al modificar el cliente. IntÃ©ntalo de nuevo mÃ¡s tarde.</div>";
+                $message_result = "<div class='notice manusoft_bussman_error'>Ha ocurrido un error al modificar el cliente. Inténtalo de nuevo más tarde.</div>";
             }
         } else {
             $save_result = manusoft_bussman_create_cliente($name,$address,$cif,$email,$phone);
             if ($save_result) {
                 $message_result = "<div class='notice manusoft_bussman_updated'>El cliente se ha creado correctamente.</div>";
             } else {
-                $message_result = "<div class='notice manusoft_bussman_error'>Ha ocurrido un error al crear el cliente. IntÃ©ntalo de nuevo mÃ¡s tarde.</div>";
+                $message_result = "<div class='notice manusoft_bussman_error'>Ha ocurrido un error al crear el cliente. Inténtalo de nuevo más tarde.</div>";
             }
         }
     } else if ($_GET['action'] == 'delete') {
@@ -33,7 +33,7 @@ if (!current_user_can('manage_options'))  {
         if ($delete_result) {
             $message_result = "<div class='notice manusoft_bussman_updated'>El cliente se ha eliminado correctamente.</div>";
         } else {
-            $message_result = "<div class='notice manusoft_bussman_error'>Ha ocurrido un error eliminado el cliente. IntÃ©ntalo de nuevo mÃ¡s tarde.</div>";
+            $message_result = "<div class='notice manusoft_bussman_error'>Ha ocurrido un error eliminado el cliente. Inténtalo de nuevo más tarde.</div>";
         }
     } else if( 'delete_all' === $ClientesListTable->current_action() ) {
         $delete_result = manusoft_bussman_delete_cliente($_GET['clientes']);
@@ -41,7 +41,7 @@ if (!current_user_can('manage_options'))  {
         if ($delete_result) {
             $message_result = "<div class='notice manusoft_bussman_updated'>El cliente se ha eliminado correctamente.</div>";
         } else {
-            $message_result = "<div class='notice manusoft_bussman_error'>Ha ocurrido un error eliminado el cliente. IntÃ©ntalo de nuevo mÃ¡s tarde.</div>";
+            $message_result = "<div class='notice manusoft_bussman_error'>Ha ocurrido un error eliminado el cliente. Inténtalo de nuevo más tarde.</div>";
         }
     }
     $ClientesListTable->prepare_items();

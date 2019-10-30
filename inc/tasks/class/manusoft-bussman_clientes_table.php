@@ -14,8 +14,8 @@ class manusoft_bussman_clientes_list_table extends WP_List_Table {
             'name' => '<b>Nombre</b>',
             'address' => '<b>Direccion</b>',
             'cif' => '<b>CIF/DNI</b>',
-            'email' => '<b>Correo electrÃ³nico</b>',
-            'phone' => '<b>TelÃ©fono</b>'
+            'email' => '<b>Correo electrónico</b>',
+            'phone' => '<b>Teléfono</b>'
         );
         return $columns;
     }

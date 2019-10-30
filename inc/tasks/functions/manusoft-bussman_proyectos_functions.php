@@ -1,8 +1,8 @@
 <?php
 defined('ABSPATH') or die('No tienes permiso para hacer eso');
 
-// MÃ©todo para obtener el total de proyectos registrados en el sistema
-function manusoft_bussman_count_proyectos($search) {
+// Método para obtener el total de proyectos registrados en el sistema
+function manusoft_bussman_count_proyectos($search = "") {
     global $wpdb;
     $sql = "SELECT COUNT(1)
             FROM ".$wpdb->prefix."manusoft_bussman_proyectos p
@@ -13,7 +13,7 @@ function manusoft_bussman_count_proyectos($search) {
     return $res;
 }
 
-// MÃ©todo para obtener todos los datos de todos los proyectos registrados en el sistema
+// Método para obtener todos los datos de todos los proyectos registrados en el sistema
 function manusoft_bussman_get_proyectos($per_page = 5, $page_number = 1, $order_by, $order, $search) {
     global $wpdb;
     $sql = "SELECT p.id AS id, p.name AS name, ep.name AS estado, c.name AS cliente
@@ -30,11 +30,50 @@ function manusoft_bussman_get_proyectos($per_page = 5, $page_number = 1, $order_
     return $res;
 }
 
-// MÃ©todo para obtener el proyecto cuyo ID se pasa como parÃ¡metro
+// Método para obtener el proyecto cuyo ID se pasa como parámetro
 function manusoft_bussman_get_proyecto($id) {
     global $wpdb;
     $res = $wpdb->get_row($wpdb->prepare("SELECT * FROM ".$wpdb->prefix."manusoft_bussman_proyectos WHERE id = %d",$id),"ARRAY_A");
     return $res;
+}
+
+// Método para obtener los estados de proyecto
+function manusoft_bussman_get_estados() {
+    global $wpdb;
+    $sql = "SELECT * FROM ".$wpdb->prefix."manusoft_bussman_estados_proyecto";
+    $res = $wpdb->get_results($sql,"ARRAY_A");
+    return $res;
+}
+
+// Método para crear un proyecto
+function manusoft_bussman_create_proyecto($name, $id_cliente, $id_estado) {
+    global $wpdb;
+    $table = $wpdb->prefix.'manusoft_bussman_proyectos';
+    $data = array(
+        'name' => $name,
+        'id_cliente' => $id_cliente,
+        'id_estado' => $id_estado
+    );
+    $wpdb->insert($table,$data);
+    $insert_result = $wpdb->insert_id;
+
+    if ($insert_result === false) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function manusoft_bussman_delete_proyecto($ids) {
+    global $wpdb;
+    $table = $wpdb->prefix.'manusoft_bussman_proyectos';
+    $res = $wpdb->query("DELETE FROM ".$table." WHERE id IN (".implode(",",$ids).")");
+
+    if ($res == 0) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 ?>

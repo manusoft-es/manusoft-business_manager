@@ -1,15 +1,15 @@
 <?php
 defined('ABSPATH') or die('No tienes permiso para hacer eso.');
 if (!current_user_can('manage_options'))  {
-    wp_die( __('No tienes suficientes permisos para acceder a esta pÃ¡gina.') );
+    wp_die( __('No tienes suficientes permisos para acceder a esta página.') );
 } else {
+    $estados_proyecto = manusoft_bussman_get_estados();
+    $clientes = manusoft_bussman_get_id_name_clientes();
+    
     if ($_GET['action'] == 'edit' && isset($_GET['id'])) {
         $nuevo_edit = "Editar";
         $crear_guardar = "Guardar";
-        $cliente = manusoft_bussman_get_proyecto($_GET['id']);
-    } else {
-        $nuevo_edit = "Nuevo";
-        $crear_guardar = "Crear";
+        $proyecto = manusoft_bussman_get_proyecto($_GET['id']);
     }
     ?>
 	<div class="wrap">
@@ -24,7 +24,7 @@ if (!current_user_can('manage_options'))  {
         			<div id="post-body-content" style="position: relative;">
         				<div id="titlediv">
         					<div id="titlewrap">
-        						<input type="text" name="name" size="30" maxlength="100" value="<?php echo $cliente['name']; ?>" placeholder="Nombre del proyecto" id="title" spellcheck="true" autocomplete="off">
+        						<input type="text" name="name" size="30" maxlength="100" value="<?php echo $proyecto['name']; ?>" placeholder="Nombre del proyecto" id="title" spellcheck="true" autocomplete="off">
         					</div>
         				</div><br>
         				<div class="postbox">
@@ -39,8 +39,13 @@ if (!current_user_can('manage_options'))  {
         								</th>
         								<td>
         									<select name="id_estado">
-        										<option value="1">Estado 1</option>
-        										<option value="2">Estado 2</option>
+        								<?php
+            								foreach ($estados_proyecto as $estado_proyecto) {
+    								    ?>
+            								    <option value="<?php echo $estado_proyecto['id']; ?>" <?php if ($proyecto['id_estado'] == $estado_proyecto['id']) { echo "selected"; } ?>><?php echo $estado_proyecto['name']; ?></option>
+    								    <?php
+            								}
+        								?>
         									</select>
         									<span id="manusoft_bussman_estado_messages"></span>
         								</td>
@@ -51,8 +56,13 @@ if (!current_user_can('manage_options'))  {
         								</th>
         								<td>
         									<select name="id_cliente">
-        										<option value="1">Cliente 1</option>
-        										<option value="2">Cliente 2</option>
+        								<?php
+        								foreach ($clientes as $cliente) {
+    								    ?>
+            								    <option value="<?php echo $cliente['id']; ?>" <?php if ($proyecto['id_cliente'] == $cliente['id']) { echo "selected"; } ?>><?php echo $cliente['name']; ?></option>
+    								    <?php
+            								}
+        								?>
         									</select>
         									<span id="manusoft_bussman_cliente_messages"></span>
         								</td>

@@ -1,15 +1,15 @@
 <?php
 defined('ABSPATH') or die('No tienes permiso para hacer eso');
 
-// MÃ©todo para obtener el total de clientes registrados en el sistema
-function manusoft_bussman_count_clientes($search) {
+// Método para obtener el total de clientes registrados en el sistema
+function manusoft_bussman_count_clientes($search = "") {
     global $wpdb;
     $sql = "SELECT COUNT(*) FROM ".$wpdb->prefix."manusoft_bussman_clientes WHERE name LIKE '%".$search."%';";
     $res = $wpdb->get_var($sql);
     return $res;
 }
 
-// MÃ©todo para obtener todos los datos de todos los clientes registrados en el sistema
+// Método para obtener todos los datos de todos los clientes registrados en el sistema
 function manusoft_bussman_get_clientes($per_page = 5, $page_number = 1, $order_by, $order, $search) {
     global $wpdb;
     $sql = "SELECT * FROM ".$wpdb->prefix."manusoft_bussman_clientes WHERE name LIKE '%".$search."%' ";
@@ -22,14 +22,22 @@ function manusoft_bussman_get_clientes($per_page = 5, $page_number = 1, $order_b
     return $res;
 }
 
-// MÃ©todo para obtener el cliente cuyo ID se pasa como parÃ¡metro
+// Método para obtener el id y el nombre de todos los clientes registrados en el sistema
+function manusoft_bussman_get_id_name_clientes() {
+    global $wpdb;
+    $sql = "SELECT id, name FROM ".$wpdb->prefix."manusoft_bussman_clientes";
+    $res = $wpdb->get_results($sql,"ARRAY_A");
+    return $res;
+}
+
+// Método para obtener el cliente cuyo ID se pasa como parámetro
 function manusoft_bussman_get_cliente($id) {
     global $wpdb;
     $res = $wpdb->get_row($wpdb->prepare("SELECT * FROM ".$wpdb->prefix."manusoft_bussman_clientes WHERE id = %d",$id),"ARRAY_A");
     return $res;
 }
 
-// MÃ©todo para comprobar que los datos del cliente son correctos
+// Método para comprobar que los datos del cliente son correctos
 function manusoft_bussman_check_data_cliente($name,$address,$cif,$email,$phone) {
     $check_data = true;
     $data_error = array();
@@ -82,7 +90,7 @@ function manusoft_bussman_check_data_cliente($name,$address,$cif,$email,$phone) 
     return $res;
 }
 
-// MÃ©todo para crear un nuevo cliente
+// Método para crear un nuevo cliente
 function manusoft_bussman_create_cliente($name,$address,$cif,$email,$phone) {
     global $wpdb;
     $check_data = manusoft_bussman_check_data_cliente($name,$address,$cif,$email,$phone);
@@ -108,7 +116,7 @@ function manusoft_bussman_create_cliente($name,$address,$cif,$email,$phone) {
     }
 }
 
-// MÃ©todo para editar un cliente
+// Método para editar un cliente
 function manusoft_bussman_edit_cliente($id,$name,$address,$cif,$email,$phone) {
     global $wpdb;
     $check_data = manusoft_bussman_check_data_cliente($name,$address,$cif,$email,$phone);
@@ -146,7 +154,7 @@ function manusoft_bussman_edit_cliente($id,$name,$address,$cif,$email,$phone) {
     }
 }
 
-// MÃ©todo para eliminar un cliente
+// Método para eliminar un cliente
 function manusoft_bussman_delete_cliente($ids) {
     global $wpdb;
     $table = $wpdb->prefix.'manusoft_bussman_clientes';
