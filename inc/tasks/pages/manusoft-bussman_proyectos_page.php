@@ -5,13 +5,26 @@ if (!current_user_can('manage_options'))  {
 } else {
     $ProyectosListTable = new manusoft_bussman_proyectos_list_table();
     
-    if (isset($_POST['action']) && $_POST['action'] == "Guardar") {
+    if (isset($_POST['action']) && $_POST['action'] == "Crear") {
         if (isset($_POST['name']) && isset($_POST['id_estado']) && isset($_POST['id_cliente'])) {
             $create_result = manusoft_bussman_create_proyecto($_POST['name'],$_POST['id_cliente'],$_POST['id_estado']);
             if ($create_result) {
                 $message_result = "<div class='notice manusoft_bussman_updated'>El proyecto se ha creado correctamente.</div>";
             } else {
                 $message_result = "<div class='notice manusoft_bussman_error'>Ha ocurrido un error al crear el proyecto. Inténtalo de nuevo más tarde.</div>";
+            }
+        } else {
+            $message_result = "<div class='notice manusoft_bussman_error'>Tienes que rellenar todos los campos.</div>";
+        }
+    } else if (isset($_POST['action']) && $_POST['action'] == "Guardar") {
+        if (!isset($_POST['id'])) {
+            $message_result = "<div class='notice manusoft_bussman_error'>No se ha indicado ningún proyecto a editar.</div>";
+        } else if (isset($_POST['name']) && isset($_POST['id_estado']) && isset($_POST['id_cliente'])) {
+            $create_result = manusoft_bussman_edit_proyecto($_POST['id'], $_POST['name'],$_POST['id_cliente'],$_POST['id_estado']);
+            if ($create_result) {
+                $message_result = "<div class='notice manusoft_bussman_updated'>El proyecto se ha editado correctamente.</div>";
+            } else {
+                $message_result = "<div class='notice manusoft_bussman_error'>Ha ocurrido un error al editar el proyecto. Inténtalo de nuevo más tarde.</div>";
             }
         } else {
             $message_result = "<div class='notice manusoft_bussman_error'>Tienes que rellenar todos los campos.</div>";
@@ -90,7 +103,7 @@ if (!current_user_can('manage_options'))  {
                 							</select>
 										</td>
 										<td>
-											<input type="submit" name="action" id="guardar" class="button button-primary button-large manusoft_bussman_save_buttons" value="Guardar">
+											<input type="submit" name="action" id="guardar" class="button button-primary button-large manusoft_bussman_save_buttons" value="Crear">
 										</td>
 									</tr>
 								</tbody>

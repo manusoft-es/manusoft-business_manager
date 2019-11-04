@@ -64,6 +64,35 @@ function manusoft_bussman_create_proyecto($name, $id_cliente, $id_estado) {
     }
 }
 
+// Método para editar un proyecto
+function manusoft_bussman_edit_proyecto($id, $name, $id_cliente, $id_estado) {
+    global $wpdb;
+    $table = $wpdb->prefix.'manusoft_bussman_proyectos';
+    $data = array(
+        'name' => $name,
+        'id_cliente' => $id_cliente,
+        'id_estado' => $id_estado
+    );
+    $where = array(
+        'id' => $id
+    );
+    $format = array(
+        '%s',
+        '%d',
+        '%d'
+    );
+    $where_format = array(
+        '%d'
+    );
+    $update_result = $wpdb->update($table,$data,$where,$format,$where_format);
+    
+    if ($update_result === false) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
 function manusoft_bussman_delete_proyecto($ids) {
     global $wpdb;
     $table = $wpdb->prefix.'manusoft_bussman_proyectos';

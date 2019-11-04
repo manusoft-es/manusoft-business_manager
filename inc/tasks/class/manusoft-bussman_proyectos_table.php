@@ -71,7 +71,7 @@ class manusoft_bussman_proyectos_list_table extends WP_List_Table {
     
     function column_name($item) {
         $actions = array(
-            'edit'      => sprintf('<a href="?page=%s&action=%s&id=%s&paged=%s">Editar</a>','manusoft-business_manager/inc/tasks/pages/manusoft-bussman_proyectos_new.php','edit',$item['id'],$this->get_pagenum()),
+            'edit'      => sprintf('<a href="?page=%s&action=%s&id=%s&paged=%s">Editar</a>','manusoft-business_manager/inc/tasks/pages/manusoft-bussman_proyectos_edit.php','edit',$item['id'],$this->get_pagenum()),
             'delete'    => sprintf('<a href="?page=%s&action=%s&id=%s&paged=%s">Eliminar</a>',$_REQUEST['page'],'delete',$item['id'],$this->get_pagenum()),
         );
         return sprintf('%1$s %2$s', $item['name'], $this->row_actions($actions) );

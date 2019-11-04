@@ -75,7 +75,7 @@ function manusoft_bussman_add_admin_links() {
         'ManuSoft Business Manager - Proyecto',                                         // Texto a mostrar en la etiqueta 'title' del enlace
         '',                                                                             // Texto a mostrar como enlace en el menú de administración de WordPress
         'manage_options',                                                               // Permisos requeridos para mostrar el enlace
-        plugin_dir_path(__FILE__).'/tasks/pages/manusoft-bussman_proyectos_new.php'     // 'Slug' del fichero a mostrar cuando se haga click en el enlace del submenú
+        plugin_dir_path(__FILE__).'/tasks/pages/manusoft-bussman_proyectos_edit.php'     // 'Slug' del fichero a mostrar cuando se haga click en el enlace del submenú
         );
 }
 ?>
