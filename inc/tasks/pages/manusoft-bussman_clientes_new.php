@@ -35,7 +35,7 @@ if (!current_user_can('manage_options'))  {
 								<table class="form-table">
 									<tr>
 										<th scope="row">
-        									<label for="manusoft_bussman_address">DirecciÃ³n</label>
+        									<label for="manusoft_bussman_address">Dirección</label>
         								</th>
         								<td>
         									<textarea name="address" id="manusoft_bussman_address" rows="3"><?php echo $cliente['address']; ?></textarea>

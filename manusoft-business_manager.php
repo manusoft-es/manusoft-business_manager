@@ -2,7 +2,7 @@
 /*
  Plugin Name: ManuSoft - Business Manager
  Plugin URI: https://github.com/manusoft-es/manusoft-business_manager/tree/dev
- Description: Plugin para la gesti贸n de negocios en WordPress
+ Description: Plugin para la gesti髇 de negocios en WordPress
  Version: 1.0
  Author: ManuSoft.es
  Author URI: https://www.manusoft.es
@@ -13,9 +13,11 @@ require_once plugin_dir_path(__FILE__).'inc/manusoft-bussman_functions.php';
 require_once plugin_dir_path(__FILE__).'inc/tasks/class/manusoft-bussman_clientes_table.php';
 require_once plugin_dir_path(__FILE__).'inc/tasks/functions/manusoft-bussman_clientes_functions.php';
 require_once plugin_dir_path(__FILE__).'inc/tasks/class/manusoft-bussman_proyectos_table.php';
+require_once plugin_dir_path(__FILE__).'inc/tasks/class/manusoft-bussman_tareas_table.php';
 require_once plugin_dir_path(__FILE__).'inc/tasks/functions/manusoft-bussman_proyectos_functions.php';
+require_once plugin_dir_path(__FILE__).'inc/tasks/functions/manusoft-bussman_tareas_functions.php';
 
-// Insercci贸n del fichero con CSS privado propio para la parte de tareas
+// Insercci髇 del fichero con CSS privado propio para la parte de tareas
 function load_manusoft_bussman_tasks_style() {
     wp_register_style('manusoft-bussman_tasks_style', plugins_url('/css/manusoft-bussman_tasks_style.css', __FILE__));
     wp_enqueue_style('manusoft-bussman_tasks_style');
@@ -23,7 +25,7 @@ function load_manusoft_bussman_tasks_style() {
 }
 add_action('admin_enqueue_scripts', 'load_manusoft_bussman_tasks_style');
 
-// Insercci贸n del fichero con CSS privado propio para la parte de presupuestos
+// Insercci髇 del fichero con CSS privado propio para la parte de presupuestos
 function load_manusoft_bussman_budgets_style() {
     wp_register_style('manusoft-bussman_budgets_style', plugins_url('/css/manusoft-bussman_budgets_style.css', __FILE__));
     wp_enqueue_style('manusoft-bussman_budgets_style');
@@ -31,7 +33,7 @@ function load_manusoft_bussman_budgets_style() {
 }
 add_action('admin_enqueue_scripts', 'load_manusoft_bussman_budgets_style');
 
-// Insercci贸n del fichero con CSS privado propio para la parte de facturas
+// Insercci髇 del fichero con CSS privado propio para la parte de facturas
 function load_manusoft_bussman_invoices_style() {
     wp_register_style('manusoft-bussman_invoices_style', plugins_url('/css/manusoft-bussman_invoices_style.css', __FILE__));
     wp_enqueue_style('manusoft-bussman_invoices_style');
@@ -78,7 +80,7 @@ function manusoft_bussman_desactivation() {
     //manusoft_bussman_delete_table_facturas();
 }
 
-// Creaci贸n de la tabla CONFIG
+// Creaci髇 de la tabla CONFIG
 function manusoft_bussman_create_table_config() {
     global $wpdb;
     $sql = "CREATE TABLE `".$wpdb->prefix."manusoft_bussman_config` (
@@ -95,7 +97,7 @@ function manusoft_bussman_create_table_config() {
     dbDelta($sql);
 }
 
-// Creaci贸n de la tabla CLIENTES
+// Creaci髇 de la tabla CLIENTES
 function manusoft_bussman_create_table_clientes() {
     global $wpdb;
     $sql = "CREATE TABLE `".$wpdb->prefix."manusoft_bussman_clientes` (
@@ -110,7 +112,7 @@ function manusoft_bussman_create_table_clientes() {
     dbDelta($sql);
 }
 
-// Creaci贸n de la tabla PROYECTOS
+// Creaci髇 de la tabla PROYECTOS
 function manusoft_bussman_create_table_proyectos() {
     global $wpdb;
     $sql = "CREATE TABLE `".$wpdb->prefix."manusoft_bussman_proyectos` (
@@ -125,7 +127,7 @@ function manusoft_bussman_create_table_proyectos() {
     dbDelta($sql);
 }
 
-// Creaci贸n de la tabla ESTADOS_PROYECTO
+// Creaci髇 de la tabla ESTADOS_PROYECTO
 function manusoft_bussman_create_table_estados_proyecto() {
     global $wpdb;
     $sql = "CREATE TABLE `".$wpdb->prefix."manusoft_bussman_estados_proyecto` (
@@ -138,7 +140,7 @@ function manusoft_bussman_create_table_estados_proyecto() {
     dbDelta($sql);
 }
 
-// Poblaci贸n de la tabla ESTADOS_PROYECTO
+// Poblaci髇 de la tabla ESTADOS_PROYECTO
 function manusoft_bussman_insert_table_estados_proyecto() {
     global $wpdb;
     $sql = "INSERT INTO `".$wpdb->prefix."manusoft_bussman_estados_proyecto` (`name`, `id_next`, `id_previous`) VALUES
@@ -151,7 +153,7 @@ function manusoft_bussman_insert_table_estados_proyecto() {
     dbDelta($sql);
 }
 
-// Creaci贸n de la tabla TAREAS
+// Creaci髇 de la tabla TAREAS
 function manusoft_bussman_create_table_tareas() {
     global $wpdb;
     $sql = "CREATE TABLE `".$wpdb->prefix."manusoft_bussman_tareas` (
@@ -175,7 +177,7 @@ function manusoft_bussman_create_table_tareas() {
     dbDelta($sql);
 }
 
-// Creaci贸n de la tabla ESTADOS_TAREA
+// Creaci髇 de la tabla ESTADOS_TAREA
 function manusoft_bussman_create_table_estados_tarea() {
     global $wpdb;
     $sql = "CREATE TABLE `".$wpdb->prefix."manusoft_bussman_estados_tarea` (
@@ -188,20 +190,20 @@ function manusoft_bussman_create_table_estados_tarea() {
     dbDelta($sql);
 }
 
-// Poblaci贸n de la tabla ESTADOS_TAREA
+// Poblaci髇 de la tabla ESTADOS_TAREA
 function manusoft_bussman_insert_table_estados_tarea() {
     global $wpdb;
     $sql = "INSERT INTO `".$wpdb->prefix."manusoft_bussman_estados_tarea` (`name`, `id_next`, `id_previous`) VALUES
                 ('Nuevo', 2, 0),
                 ('En proceso', 3, 1),
-                ('En revisi贸n', 4, 2),
+                ('En revisi髇', 4, 2),
                 ('Finalizada', 0, 3),
                 ('Rechazada', 2, 3);";
     require_once( ABSPATH."wp-admin/includes/upgrade.php");
     dbDelta($sql);
 }
 
-// Creaci贸n de la tabla TIPOS_TAREA
+// Creaci髇 de la tabla TIPOS_TAREA
 function manusoft_bussman_create_table_tipos_tarea() {
     global $wpdb;
     $sql = "CREATE TABLE `".$wpdb->prefix."manusoft_bussman_tipos_tarea` (
@@ -212,7 +214,7 @@ function manusoft_bussman_create_table_tipos_tarea() {
     dbDelta($sql);
 }
 
-// Poblaci贸n de la tabla TIPOS_TAREA
+// Poblaci髇 de la tabla TIPOS_TAREA
 function manusoft_bussman_insert_table_tipos_tarea() {
     global $wpdb;
     $sql = "INSERT INTO `".$wpdb->prefix."manusoft_bussman_tipos_tarea` (`name`) VALUES
@@ -249,7 +251,7 @@ function manusoft_bussman_insert_table_prioridades_tarea() {
     dbDelta($sql);
 }
 
-// Creaci贸n de la tabla COMENTARIOS_TAREA
+// Creaci髇 de la tabla COMENTARIOS_TAREA
 function manusoft_bussman_create_table_comentarios_tarea() {
     global $wpdb;
     $sql = "CREATE TABLE `".$wpdb->prefix."manusoft_bussman_comentarios_tarea` (
@@ -263,17 +265,17 @@ function manusoft_bussman_create_table_comentarios_tarea() {
     dbDelta($sql);
 }
 
-// Creaci贸n de la tabla PRODUCTOS
+// Creaci髇 de la tabla PRODUCTOS
 function manusoft_bussman_create_table_productos() {
     
 }
 
-// Creaci贸n de la tabla PRESUPUESTOS
+// Creaci髇 de la tabla PRESUPUESTOS
 function manusoft_bussman_create_table_presupuestos() {
     
 }
 
-// Creaci贸n de la tabla FACTURAS
+// Creaci髇 de la tabla FACTURAS
 function manusoft_bussman_create_table_facturas() {
     
 }
