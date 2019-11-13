@@ -24,7 +24,6 @@ if (!current_user_can('manage_options'))  {
                 $message_result = "<div class='notice manusoft_bussman_error'>Ha ocurrido un error al modificar la tarea. Inténtalo de nuevo más tarde.</div>";
             }
         } else {
-echo "TEST";
             $save_result = manusoft_bussman_create_tarea($name,$description,$id_proyecto,$id_estado,$id_prioridad,$id_tipo,$start_date,$end_date,$planned_hours,$used_hours);
             if ($save_result) {
                 $message_result = "<div class='notice manusoft_bussman_updated'>La tarea se ha creado correctamente.</div>";
@@ -42,12 +41,15 @@ echo "TEST";
             $message_result = "<div class='notice manusoft_bussman_error'>Ha ocurrido un error eliminado la tarea. Inténtalo de nuevo más tarde.</div>";
         }
     } else if( 'delete_all' === $TareasListTable->current_action() ) {
-        $delete_result = manusoft_bussman_delete_tareas($_GET['clientes']);
-        
-        if ($delete_result) {
-            $message_result = "<div class='notice manusoft_bussman_updated'>La tarea se ha eliminado correctamente.</div>";
+        if (isset($_GET['tareas'])) {
+            $delete_result = manusoft_bussman_delete_tareas($_GET['tareas']);
+            if ($delete_result) {
+                $message_result = "<div class='notice manusoft_bussman_updated'>Las tareas se han eliminado correctamente.</div>";
+            } else {
+                $message_result = "<div class='notice manusoft_bussman_error'>Ha ocurrido un error eliminado las tareas. Inténtalo de nuevo más tarde.</div>";
+            }
         } else {
-            $message_result = "<div class='notice manusoft_bussman_error'>Ha ocurrido un error eliminado la tarea. Inténtalo de nuevo más tarde.</div>";
+            $message_result = "<div class='notice manusoft_bussman_error'>No has seleccionado ninguna tarea para borrar.</div>";
         }
     }
     $TareasListTable->prepare_items();

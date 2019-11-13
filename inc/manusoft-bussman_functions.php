@@ -88,6 +88,14 @@ function manusoft_bussman_add_admin_links() {
     
     add_submenu_page(
         '',                                                                             // 'Slug' del menú del que cuelga el submenú
+        'ManuSoft Business Manager - Proyecto',                                         // Texto a mostrar en la etiqueta 'title' del enlace
+        '',                                                                             // Texto a mostrar como enlace en el menú de administraci�n de WordPress
+        'manage_options',                                                               // Permisos requeridos para mostrar el enlace
+        plugin_dir_path(__FILE__).'/tasks/pages/manusoft-bussman_proyectos_detalle.php' // 'Slug' del fichero a mostrar cuando se haga click en el enlace del submenú
+    );
+    
+    add_submenu_page(
+        '',                                                                             // 'Slug' del menú del que cuelga el submenú
         'ManuSoft Business Manager - Tarea',                                            // Texto a mostrar en la etiqueta 'title' del enlace
         '',                                                                             // Texto a mostrar como enlace en el menú de administraci�n de WordPress
         'manage_options',                                                               // Permisos requeridos para mostrar el enlace

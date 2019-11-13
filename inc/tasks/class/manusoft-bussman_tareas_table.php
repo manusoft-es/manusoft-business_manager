@@ -12,7 +12,6 @@ class manusoft_bussman_tareas_list_table extends WP_List_Table {
             'cb' => '<input type="checkbox" />',
             'id' => '<b>#</b>',
             'name' => '<b>Nombre</b>',
-            'description' => '<b>Descripción</b>',
             'id_proyecto' => '<b>Proyecto</b>',
             'id_estado' => '<b>Estado</b>',
             'id_prioridad' => '<b>Prioridad</b>',
@@ -102,7 +101,6 @@ class manusoft_bussman_tareas_list_table extends WP_List_Table {
                 return manusoft_bussman_get_tipo_name_tarea($item[$column_name]);
             case 'id':
             case 'name':
-            case 'description':
             case 'start_date':
             case 'end_date':
             case 'planned_hours':

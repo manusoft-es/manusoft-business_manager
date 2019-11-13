@@ -37,16 +37,22 @@ if (!current_user_can('manage_options'))  {
                     		</h2>
                     		<div class="inside">
 								<table class="form-table">
-									<tr>
-										<th scope="row">
-        									<label for="manusoft_bussman_description">Descripción</label>
+        							<tr>
+        								<th scope="row">
+        									<label for="manusoft_bussman_tipo">Tipo</label>
         								</th>
         								<td>
-        									<textarea name="description" id="manusoft_bussman_description" rows="3"><?php echo $tarea['description']; ?></textarea>
-        									<span id="manusoft_bussman_description_messages"></span>
+        									<select name="id_tipo">
+        								<?php
+        								    foreach ($tipos_tares as $tipo_tarea) {
+    								    ?>
+            								    <option value="<?php echo $tipo_tarea['id']; ?>" <?php if ($tarea['id_tipo'] == $tipo_tarea['id']) { echo "selected"; } ?>><?php echo $tipo_tarea['name']; ?></option>
+    								    <?php
+            								}
+        								?>
+        									</select>
+        									<span id="manusoft_bussman_tipo_messages"></span>
         								</td>
-        							</tr>
-        							<tr>
         								<th scope="row">
         									<label for="manusoft_bussman_proyecto">Proyecto</label>
         								</th>
@@ -61,6 +67,15 @@ if (!current_user_can('manage_options'))  {
         								?>
         									</select>
         									<span id="manusoft_bussman_estado_messages"></span>
+        								</td>
+        							</tr>
+									<tr>
+										<th scope="row">
+        									<label for="manusoft_bussman_description">Descripción</label>
+        								</th>
+        								<td colspan="3">
+        									<textarea name="description" id="manusoft_bussman_description" rows="5"><?php echo $tarea['description']; ?></textarea>
+        									<span id="manusoft_bussman_description_messages"></span>
         								</td>
         							</tr>
         							<tr>
@@ -79,8 +94,6 @@ if (!current_user_can('manage_options'))  {
         									</select>
         									<span id="manusoft_bussman_estado_messages"></span>
         								</td>
-        							</tr>
-        							<tr>
         								<th scope="row">
         									<label for="manusoft_bussman_prioridad">Prioridad</label>
         								</th>
@@ -99,30 +112,11 @@ if (!current_user_can('manage_options'))  {
         							</tr>
         							<tr>
         								<th scope="row">
-        									<label for="manusoft_bussman_tipo">Tipo</label>
-        								</th>
-        								<td>
-        									<select name="id_tipo">
-        								<?php
-        								    foreach ($tipos_tares as $tipo_tarea) {
-    								    ?>
-            								    <option value="<?php echo $tipo_tarea['id']; ?>" <?php if ($tarea['id_tipo'] == $tipo_tarea['id']) { echo "selected"; } ?>><?php echo $tipo_tarea['name']; ?></option>
-    								    <?php
-            								}
-        								?>
-        									</select>
-        									<span id="manusoft_bussman_tipo_messages"></span>
-        								</td>
-        							</tr>
-        							<tr>
-        								<th scope="row">
         									<label for="manusoft_bussman_start_date">Fecha de inicio</label>
         								</th>
         								<td>
         									<input type="date" id="manusoft_bussman_start_date" name="start_date" value="<?php echo $tarea['start_date']; ?>" style="width:auto;" class="regular-text" />
         								</td>
-        							</tr>
-        							<tr>
         								<th scope="row">
         									<label for="manusoft_bussman_end_date">Fecha de fin</label>
         								</th>
@@ -135,15 +129,13 @@ if (!current_user_can('manage_options'))  {
         									<label for="manusoft_bussman_planned_hours">Horas planificadas</label>
         								</th>
         								<td>
-        									<input type="number" id="manusoft_bussman_planned_hours" name="planned_hours" value="<?php echo $tarea['planned_hours']; ?>" style="width:auto;" class="regular-text" />
+        									<input type="number" id="manusoft_bussman_planned_hours" name="planned_hours" min="0" step="0.5" value="<?php echo $tarea['planned_hours']; ?>" style="width:auto;" class="regular-text" />
         								</td>
-        							</tr>
-        							<tr>
         								<th scope="row">
         									<label for="manusoft_bussman_used_hours">Horas empleadas</label>
         								</th>
         								<td>
-        									<input type="number" id="manusoft_bussman_used_hours" name="used_hours" value="<?php echo $tarea['used_hours']; ?>" style="width:auto;" class="regular-text" />
+        									<input type="number" id="manusoft_bussman_used_hours" name="used_hours" min="0" step="0.5" value="<?php echo $tarea['used_hours']; ?>" style="width:auto;" class="regular-text" />
         								</td>
         							</tr>
         						</table>

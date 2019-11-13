@@ -37,6 +37,21 @@ function manusoft_bussman_get_proyecto($id) {
     return $res;
 }
 
+// Método para obtener el proyecto cuyo ID se pasa como parámetro
+function manusoft_bussman_get_proyecto_detalle($id) {
+    global $wpdb;
+    $sql = "SELECT
+                p.name AS name,
+                c.name AS cliente,
+                ep.name AS estado
+            FROM ".$wpdb->prefix."manusoft_bussman_proyectos p
+            INNER JOIN ".$wpdb->prefix."manusoft_bussman_clientes c ON (c.id = p.id_cliente)
+            INNER JOIN ".$wpdb->prefix."manusoft_bussman_estados_proyecto ep ON (ep.id = p.id_estado)
+            WHERE p.id = %d";
+    $res = $wpdb->get_row($wpdb->prepare($sql,$id),"ARRAY_A");
+    return $res;
+}
+
 // Método para obtener los estados de proyecto
 function manusoft_bussman_get_estados() {
     global $wpdb;

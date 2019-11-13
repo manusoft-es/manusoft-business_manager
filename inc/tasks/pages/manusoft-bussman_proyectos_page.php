@@ -47,9 +47,9 @@ if (!current_user_can('manage_options'))  {
             $delete_result = manusoft_bussman_delete_proyecto($_GET['proyectos']);
             
             if ($delete_result) {
-                $message_result = "<div class='notice manusoft_bussman_updated'>El proyecto se ha eliminado correctamente.</div>";
+                $message_result = "<div class='notice manusoft_bussman_updated'>Los proyectos se han eliminado correctamente.</div>";
             } else {
-                $message_result = "<div class='notice manusoft_bussman_error'>Ha ocurrido un error al eliminar el proyecto. Inténtalo de nuevo más tarde.</div>";
+                $message_result = "<div class='notice manusoft_bussman_error'>Ha ocurrido un error al eliminar los proyectos. Inténtalo de nuevo más tarde.</div>";
             }
         } else {
             $message_result = "<div class='notice manusoft_bussman_error'>No has seleccionado ningún proyecto para borrar.</div>";

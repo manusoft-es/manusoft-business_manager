@@ -22,6 +22,13 @@ function manusoft_bussman_get_tareas($per_page = 5, $page_number = 1, $order_by,
     return $res;
 }
 
+function manusoft_bussman_get_tarea($id) {
+    global $wpdb;
+    $sql = "SELECT * FROM ".$wpdb->prefix."manusoft_bussman_tareas WHERE id = ".$id.";";
+    $res = $wpdb->get_row($sql, "ARRAY_A");
+    return $res;
+}
+
 // Método para obtener los proyectos del sistema
 function manusoft_bussman_get_proyectos_tarea() {
     global $wpdb;

@@ -36,12 +36,15 @@ if (!current_user_can('manage_options'))  {
             $message_result = "<div class='notice manusoft_bussman_error'>Ha ocurrido un error eliminado el cliente. Inténtalo de nuevo más tarde.</div>";
         }
     } else if( 'delete_all' === $ClientesListTable->current_action() ) {
-        $delete_result = manusoft_bussman_delete_cliente($_GET['clientes']);
-        
-        if ($delete_result) {
-            $message_result = "<div class='notice manusoft_bussman_updated'>El cliente se ha eliminado correctamente.</div>";
+        if (isset($_GET['clientes'])) {
+            $delete_result = manusoft_bussman_delete_cliente($_GET['clientes']);
+            if ($delete_result) {
+                $message_result = "<div class='notice manusoft_bussman_updated'>Los clientes se han eliminado correctamente.</div>";
+            } else {
+                $message_result = "<div class='notice manusoft_bussman_error'>Ha ocurrido un error eliminado los clientes. Inténtalo de nuevo más tarde.</div>";
+            }
         } else {
-            $message_result = "<div class='notice manusoft_bussman_error'>Ha ocurrido un error eliminado el cliente. Inténtalo de nuevo más tarde.</div>";
+            $message_result = "<div class='notice manusoft_bussman_error'>No has seleccionado ningún cliente para borrar.</div>";
         }
     }
     $ClientesListTable->prepare_items();

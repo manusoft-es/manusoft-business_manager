@@ -166,8 +166,8 @@ function manusoft_bussman_create_table_tareas() {
                 `id_tipo` bigint(20) unsigned NOT NULL,
                 `start_date` date NULL,
                 `end_date` date NULL,
-                `planned_hours` int(5) unsigned NULL,
-                `used_hours` int(5) unsigned NULL,
+                `planned_hours` decimal(2,1) unsigned NULL,
+                `used_hours` decimal(2,1) unsigned NULL,
                 FOREIGN KEY (`id_proyecto`) REFERENCES `".$wpdb->prefix."manusoft_bussman_proyectos` (`id`) ON DELETE CASCADE,
                 FOREIGN KEY (`id_estado`) REFERENCES `".$wpdb->prefix."manusoft_bussman_estados_tarea` (`id`) ON DELETE RESTRICT,
                 FOREIGN KEY (`id_prioridad`) REFERENCES `".$wpdb->prefix."manusoft_bussman_prioridades_tarea` (`id`) ON DELETE RESTRICT,
@@ -222,7 +222,7 @@ function manusoft_bussman_insert_table_tipos_tarea() {
                 ('Desarrollo'),
                 ('Mantenimiento'),
                 ('Análisis'),
-                ('DiseÃ±o');";
+                ('Diseño');";
     require_once( ABSPATH."wp-admin/includes/upgrade.php");
     dbDelta($sql);
 }
