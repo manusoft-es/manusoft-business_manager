@@ -45,7 +45,7 @@ class manusoft_bussman_tareas_list_table extends WP_List_Table {
         $hidden = array();
         $perPage = 5;
         $currentPage = $this->get_pagenum();
-        $count_clientes = manusoft_bussman_count_tareas($_GET['s']);
+        $count_clientes = manusoft_bussman_count_tareas($_GET['s'], $_GET['proyecto_id']);
         $totalItems  = $count_clientes;
         
         $this->set_pagination_args(array(
@@ -56,7 +56,7 @@ class manusoft_bussman_tareas_list_table extends WP_List_Table {
         $sortable = $this->get_sortable_columns();
 
         $this->_column_headers = array($columns, $hidden, $sortable);
-        $this->items = manusoft_bussman_get_tareas($perPage, $currentPage, $_GET['orderby'], $_GET['order'], $_GET['s']);
+        $this->items = manusoft_bussman_get_tareas($perPage, $currentPage, $_GET['orderby'], $_GET['order'], $_GET['s'], $_GET['proyecto_id']);
         $this->process_bulk_action();
         
         $_SERVER['REQUEST_URI'] = remove_query_arg( '_wp_http_referer', $_SERVER['REQUEST_URI'] );
@@ -82,10 +82,17 @@ class manusoft_bussman_tareas_list_table extends WP_List_Table {
     }
     
     function column_name($item) {
-        $actions = array(
-            'edit'      => sprintf('<a href="?page=%s&action=%s&id=%s&paged=%s">Editar</a>','manusoft-business_manager/inc/tasks/pages/manusoft-bussman_tareas_new.php','edit',$item['id'],$this->get_pagenum()),
-            'delete'    => sprintf('<a href="?page=%s&action=%s&id=%s&paged=%s">Eliminar</a>',$_REQUEST['page'],'delete',$item['id'],$this->get_pagenum()),
-        );
+        if (isset($_GET['proyecto_id'])) {
+            $actions = array(
+                'edit'      => sprintf('<a href="?page=%s&action=%s&tarea_id=%s&proyecto_id=%s&paged=%s">Editar</a>','manusoft-business_manager/inc/tasks/pages/manusoft-bussman_tareas_new.php','edit',$item['id'],$_GET['proyecto_id'],$this->get_pagenum()),
+                'delete'    => sprintf('<a href="?page=%s&action=%s&tarea_id=%s&proyecto_id=%s&paged=%s">Eliminar</a>',$_REQUEST['page'],'delete',$item['id'],$_GET['proyecto_id'],$this->get_pagenum()),
+            );
+        } else {
+            $actions = array(
+                'edit'      => sprintf('<a href="?page=%s&action=%s&tarea_id=%s&paged=%s">Editar</a>','manusoft-business_manager/inc/tasks/pages/manusoft-bussman_tareas_new.php','edit',$item['id'],$this->get_pagenum()),
+                'delete'    => sprintf('<a href="?page=%s&action=%s&tarea_id=%s&paged=%s">Eliminar</a>',$_REQUEST['page'],'delete',$item['id'],$this->get_pagenum()),
+            );
+        }
         return sprintf('%1$s %2$s', $item['name'], $this->row_actions($actions) );
     }
     

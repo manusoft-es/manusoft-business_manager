@@ -48,3 +48,7 @@ th#id {
     border-left-color: #46b450;
     padding: 10px;
 }
+
+.page-title-action {
+	top: 15px !important;
+}

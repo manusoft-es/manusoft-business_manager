@@ -19,9 +19,19 @@ if (!current_user_can('manage_options'))  {
 	<div class="wrap">
 		<h1 class="wp-heading-inline">ManuSoft Business Manager - <?php echo $nuevo_edit; ?> tarea</h1>
         <hr class="wp-header-end">
+		<?php
+		    if (isset($_GET['proyecto_id'])) {
+        ?>
+        <form class="manusoft_bussman_form" action="admin.php?page=manusoft-business_manager/inc/tasks/pages/manusoft-bussman_proyectos_detalle.php&proyecto_id=<?php echo $_GET['proyecto_id']; ?>&paged=<?php echo $_GET['paged']; ?>" method="post">
+        <?php
+		    } else {
+	    ?>
         <form class="manusoft_bussman_form" action="admin.php?page=manusoft-business_manager/inc/tasks/pages/manusoft-bussman_tareas_page.php&paged=<?php echo $_GET['paged']; ?>" method="post">
-        	<?php if ($_GET['action'] == 'edit' && isset($_GET['id'])) { ?>
-        		<input type="hidden" name="id" value="<?php echo $_GET['id']; ?>" />
+	    <?php
+		    }
+	    ?>
+        	<?php if ($_GET['action'] == 'edit' && isset($_GET['tarea_id'])) { ?>
+        		<input type="hidden" name="tarea_id" value="<?php echo $_GET['tarea_id']; ?>" />
     		<?php } ?>
         	<div id="poststuff">
         		<div id="post-body" class="metabox-holder columns-2">
@@ -57,15 +67,24 @@ if (!current_user_can('manage_options'))  {
         									<label for="manusoft_bussman_proyecto">Proyecto</label>
         								</th>
         								<td>
+        								<?php
+        								    if (isset($_GET['proyecto_id'])) {
+        								        $proyecto = manusoft_bussman_get_proyecto($_GET['proyecto_id']);
+        								        echo $proyecto['name'];
+    								        } else {
+								        ?>
         									<select name="id_proyecto">
         								<?php
-        								    foreach ($proyectos as $proyecto) {
+        								        foreach ($proyectos as $proyecto) {
     								    ?>
             								    <option value="<?php echo $proyecto['id']; ?>" <?php if ($tarea['id_estado'] == $proyecto['id']) { echo "selected"; } ?>><?php echo $proyecto['name']; ?></option>
     								    <?php
-            								}
+            								    }
         								?>
         									</select>
+        								<?php
+    								        }
+								        ?>
         									<span id="manusoft_bussman_estado_messages"></span>
         								</td>
         							</tr>
@@ -149,7 +168,17 @@ if (!current_user_can('manage_options'))  {
     							<div class="inside">
                                 	 <div class="alumni_lc_formulario_buttons">
                                 		<input type="submit" name="action" id="guardar" class="button button-primary button-large manusoft_bussman_save_buttons" value="Guardar">
-                        				<a href="admin.php?page=manusoft-business_manager/inc/tasks/pages/manusoft-bussman_tareas_page.php&paged=<?php echo $_GET['paged']; ?>">
+        								<?php
+        								    if (isset($_GET['proyecto_id'])) {
+								        ?>
+								        	<a href="admin.php?page=manusoft-business_manager/inc/tasks/pages/manusoft-bussman_proyectos_detalle.php&proyecto_id=<?php echo $_GET['proyecto_id']; ?>&paged=<?php echo $_GET['paged']; ?>">
+							        	<?php
+        								    } else {
+    								    ?>
+                    				        <a href="admin.php?page=manusoft-business_manager/inc/tasks/pages/manusoft-bussman_tareas_page.php&paged=<?php echo $_GET['paged']; ?>">
+                				        <?php
+        								    }
+                				        ?>
                         					<input type="button" id="cancelar" class="button button-large manusoft_bussman_save_buttons" value="Cancelar">
                     					</a>
                                 	</div>

@@ -17,10 +17,10 @@ if (!current_user_can('manage_options'))  {
             $message_result = "<div class='notice manusoft_bussman_error'>Tienes que rellenar todos los campos.</div>";
         }
     } else if (isset($_POST['action']) && $_POST['action'] == "Guardar") {
-        if (!isset($_POST['id'])) {
+        if (!isset($_POST['proyecto_id'])) {
             $message_result = "<div class='notice manusoft_bussman_error'>No se ha indicado ningún proyecto a editar.</div>";
         } else if (isset($_POST['name']) && isset($_POST['id_estado']) && isset($_POST['id_cliente'])) {
-            $create_result = manusoft_bussman_edit_proyecto($_POST['id'], $_POST['name'],$_POST['id_cliente'],$_POST['id_estado']);
+            $create_result = manusoft_bussman_edit_proyecto($_POST['proyecto_id'], $_POST['name'],$_POST['id_cliente'],$_POST['id_estado']);
             if ($create_result) {
                 $message_result = "<div class='notice manusoft_bussman_updated'>El proyecto se ha editado correctamente.</div>";
             } else {
@@ -30,9 +30,9 @@ if (!current_user_can('manage_options'))  {
             $message_result = "<div class='notice manusoft_bussman_error'>Tienes que rellenar todos los campos.</div>";
         }
     } else if (isset($_GET['action']) && $_GET['action'] == "delete") {
-        if (isset($_GET['id'])) {
+        if (isset($_GET['proyecto_id'])) {
             $ids = [];
-            array_push($ids,$_GET['id']);
+            array_push($ids,$_GET['proyecto_id']);
             $delete_result = manusoft_bussman_delete_proyecto($ids);
             if ($delete_result) {
                 $message_result = "<div class='notice manusoft_bussman_updated'>El proyecto se ha eliminado correctamente.</div>";

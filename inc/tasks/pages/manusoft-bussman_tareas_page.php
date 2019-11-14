@@ -15,8 +15,8 @@ if (!current_user_can('manage_options'))  {
         $end_date = $_POST['end_date'];
         $planned_hours = $_POST['planned_hours'];
         $used_hours = $_POST['used_hours'];
-        if (isset($_POST['id'])) {
-            $id = $_POST['id'];
+        if (isset($_POST['tarea_id'])) {
+            $id = $_POST['tarea_id'];
             $save_result = manusoft_bussman_edit_tarea($id,$name,$description,$id_proyecto,$id_estado,$id_prioridad,$id_tipo,$start_date,$end_date,$planned_hours,$used_hours);
             if ($save_result) {
                 $message_result = "<div class='notice manusoft_bussman_updated'>La tarea se ha modificado correctamente.</div>";
@@ -33,7 +33,7 @@ if (!current_user_can('manage_options'))  {
         }
     } else if ($_GET['action'] == 'delete') {
         $ids = [];
-        array_push($ids,$_GET['id']);
+        array_push($ids,$_GET['tarea_id']);
         $delete_result = manusoft_bussman_delete_tareas($ids);
         if ($delete_result) {
             $message_result = "<div class='notice manusoft_bussman_updated'>La tarea se ha eliminado correctamente.</div>";

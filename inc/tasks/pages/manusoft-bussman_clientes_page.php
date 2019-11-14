@@ -10,8 +10,8 @@ if (!current_user_can('manage_options'))  {
         $cif = $_POST['cif'];
         $email = $_POST['email'];
         $phone = $_POST['phone'];
-        if (isset($_POST['id'])) {
-            $id = $_POST['id'];
+        if (isset($_POST['cliente_id'])) {
+            $id = $_POST['cliente_id'];
             $save_result = manusoft_bussman_edit_cliente($id,$name,$address,$cif,$email,$phone);
             if ($save_result) {
                 $message_result = "<div class='notice manusoft_bussman_updated'>El cliente se ha modificado correctamente.</div>";
@@ -28,8 +28,8 @@ if (!current_user_can('manage_options'))  {
         }
     } else if ($_GET['action'] == 'delete') {
         $ids = [];
-        array_push($ids,$_GET['id']);
-        $delete_result = manusoft_bussman_delete_cliente($ids);
+        array_push($ids,$_GET['cliente_id']);
+        $delete_result = manusoft_bussman_delete_clientes($ids);
         if ($delete_result) {
             $message_result = "<div class='notice manusoft_bussman_updated'>El cliente se ha eliminado correctamente.</div>";
         } else {
@@ -37,7 +37,7 @@ if (!current_user_can('manage_options'))  {
         }
     } else if( 'delete_all' === $ClientesListTable->current_action() ) {
         if (isset($_GET['clientes'])) {
-            $delete_result = manusoft_bussman_delete_cliente($_GET['clientes']);
+            $delete_result = manusoft_bussman_delete_clientes($_GET['clientes']);
             if ($delete_result) {
                 $message_result = "<div class='notice manusoft_bussman_updated'>Los clientes se han eliminado correctamente.</div>";
             } else {

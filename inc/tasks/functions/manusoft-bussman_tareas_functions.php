@@ -2,17 +2,25 @@
 defined('ABSPATH') or die('No tienes permiso para hacer eso');
 
 // Método para obtener el total de tareas registradas en el sistema
-function manusoft_bussman_count_tareas($search = "") {
+function manusoft_bussman_count_tareas($search = "", $project_id = "") {
     global $wpdb;
-    $sql = "SELECT COUNT(*) FROM ".$wpdb->prefix."manusoft_bussman_tareas WHERE name LIKE '%".$search."%';";
+    $sql = "SELECT COUNT(*) FROM ".$wpdb->prefix."manusoft_bussman_tareas WHERE name LIKE '%".$search."%'";
+    if ($project_id != "") {
+        $sql .= "WHERE id_proyecto = ".$project_id.";";
+    } else {
+        $sql .= ";";
+    }
     $res = $wpdb->get_var($sql);
     return $res;
 }
 
 // Método para obtener todos los datos de todos los tareas registradas en el sistema
-function manusoft_bussman_get_tareas($per_page = 5, $page_number = 1, $order_by, $order, $search) {
+function manusoft_bussman_get_tareas($per_page = 5, $page_number = 1, $order_by, $order, $search, $project_id = "") {
     global $wpdb;
     $sql = "SELECT * FROM ".$wpdb->prefix."manusoft_bussman_tareas WHERE name LIKE '%".$search."%' ";
+    if ($project_id != "") {
+        $sql .= "AND id_proyecto = ".$project_id." ";
+    }
     if ($order_by != "" && $order != "") {
         $sql .= "ORDER BY ".$order_by." ".$order." ";
     }

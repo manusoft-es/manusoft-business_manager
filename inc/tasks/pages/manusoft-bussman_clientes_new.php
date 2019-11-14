@@ -3,10 +3,10 @@ defined('ABSPATH') or die('No tienes permiso para hacer eso.');
 if (!current_user_can('manage_options'))  {
     wp_die( __('No tienes suficientes permisos para acceder a esta página.') );
 } else {
-    if ($_GET['action'] == 'edit' && isset($_GET['id'])) {
+    if ($_GET['action'] == 'edit' && isset($_GET['cliente_id'])) {
         $nuevo_edit = "Editar";
         $crear_guardar = "Guardar";
-        $cliente = manusoft_bussman_get_cliente($_GET['id']);
+        $cliente = manusoft_bussman_get_cliente($_GET['cliente_id']);
     } else {
         $nuevo_edit = "Nuevo";
         $crear_guardar = "Crear";
@@ -16,8 +16,8 @@ if (!current_user_can('manage_options'))  {
 		<h1 class="wp-heading-inline">ManuSoft Business Manager - <?php echo $nuevo_edit; ?> cliente</h1>
         <hr class="wp-header-end">
         <form class="manusoft_bussman_form" action="admin.php?page=manusoft-business_manager/inc/tasks/pages/manusoft-bussman_clientes_page.php&paged=<?php echo $_GET['paged']; ?>" method="post">
-        	<?php if ($_GET['action'] == 'edit' && isset($_GET['id'])) { ?>
-        		<input type="hidden" name="id" value="<?php echo $_GET['id']; ?>" />
+        	<?php if ($_GET['action'] == 'edit' && isset($_GET['cliente_id'])) { ?>
+        		<input type="hidden" name="cliente_id" value="<?php echo $_GET['cliente_id']; ?>" />
     		<?php } ?>
         	<div id="poststuff">
         		<div id="post-body" class="metabox-holder columns-2">

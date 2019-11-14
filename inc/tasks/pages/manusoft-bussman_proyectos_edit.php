@@ -6,18 +6,18 @@ if (!current_user_can('manage_options'))  {
     $estados_proyecto = manusoft_bussman_get_estados();
     $clientes = manusoft_bussman_get_id_name_clientes();
     
-    if ($_GET['action'] == 'edit' && isset($_GET['id'])) {
+    if ($_GET['action'] == 'edit' && isset($_GET['proyecto_id'])) {
         $nuevo_edit = "Editar";
         $crear_guardar = "Guardar";
-        $proyecto = manusoft_bussman_get_proyecto($_GET['id']);
+        $proyecto = manusoft_bussman_get_proyecto($_GET['proyecto_id']);
     }
     ?>
 	<div class="wrap">
 		<h1 class="wp-heading-inline">ManuSoft Business Manager - <?php echo $nuevo_edit; ?> proyecto</h1>
         <hr class="wp-header-end">
         <form class="manusoft_bussman_form" action="admin.php?page=manusoft-business_manager/inc/tasks/pages/manusoft-bussman_proyectos_page.php&paged=<?php echo $_GET['paged']; ?>" method="post">
-        	<?php if ($_GET['action'] == 'edit' && isset($_GET['id'])) { ?>
-        		<input type="hidden" name="id" value="<?php echo $_GET['id']; ?>" />
+        	<?php if ($_GET['action'] == 'edit' && isset($_GET['proyecto_id'])) { ?>
+        		<input type="hidden" name="proyecto_id" value="<?php echo $_GET['proyecto_id']; ?>" />
     		<?php } ?>
         	<div id="poststuff">
         		<div id="post-body" class="metabox-holder columns-2">
