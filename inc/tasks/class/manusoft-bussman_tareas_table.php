@@ -8,19 +8,34 @@ if (!class_exists('WP_List_Table')) {
 class manusoft_bussman_tareas_list_table extends WP_List_Table {
     
     function get_columns() {
-        $columns = array (
-            'cb' => '<input type="checkbox" />',
-            'id' => '<b>#</b>',
-            'name' => '<b>Nombre</b>',
-            'id_proyecto' => '<b>Proyecto</b>',
-            'id_estado' => '<b>Estado</b>',
-            'id_prioridad' => '<b>Prioridad</b>',
-            'id_tipo' => '<b>Tipo</b>',
-            'start_date' => '<b>Fecha de inicio</b>',
-            'end_date' => '<b>Fecha de fin</b>',
-            'planned_hours' => '<b>Horas planificadas</b>',
-            'used_hours' => '<b>Horas realizadas</b>'
-        );
+        if (isset($_GET['proyecto_id'])) {
+            $columns = array (
+                'cb' => '<input type="checkbox" />',
+                'id' => '<b>#</b>',
+                'name' => '<b>Nombre</b>',
+                'id_proyecto' => '<b>Proyecto</b>',
+                'id_estado' => '<b>Estado</b>',
+                'id_prioridad' => '<b>Prioridad</b>',
+                'id_tipo' => '<b>Tipo</b>',
+                'start_date' => '<b>Fecha de inicio</b>',
+                'end_date' => '<b>Fecha de fin</b>',
+                'planned_hours' => '<b>Horas planificadas</b>',
+                'used_hours' => '<b>Horas realizadas</b>'
+            );
+        } else {
+            $columns = array (
+                'id' => '<b>#</b>',
+                'name' => '<b>Nombre</b>',
+                'id_proyecto' => '<b>Proyecto</b>',
+                'id_estado' => '<b>Estado</b>',
+                'id_prioridad' => '<b>Prioridad</b>',
+                'id_tipo' => '<b>Tipo</b>',
+                'start_date' => '<b>Fecha de inicio</b>',
+                'end_date' => '<b>Fecha de fin</b>',
+                'planned_hours' => '<b>Horas planificadas</b>',
+                'used_hours' => '<b>Horas realizadas</b>'
+            );
+        }
         return $columns;
     }
     
@@ -57,15 +72,19 @@ class manusoft_bussman_tareas_list_table extends WP_List_Table {
 
         $this->_column_headers = array($columns, $hidden, $sortable);
         $this->items = manusoft_bussman_get_tareas($perPage, $currentPage, $_GET['orderby'], $_GET['order'], $_GET['s'], $_GET['proyecto_id']);
-        $this->process_bulk_action();
+        if (!isset($_GET['proyecto_id'])) {
+            $this->process_bulk_action();
+        }
         
         $_SERVER['REQUEST_URI'] = remove_query_arg( '_wp_http_referer', $_SERVER['REQUEST_URI'] );
     }
     
     function get_bulk_actions() {
-        $actions = array(
-            'delete_all' => 'Eliminar'
-        );
+        if (!isset($_GET['proyecto_id'])) {
+            $actions = array(
+                'delete_all' => 'Eliminar'
+            );
+        }
         return $actions;
     }
     
@@ -75,10 +94,12 @@ class manusoft_bussman_tareas_list_table extends WP_List_Table {
     }
     
     function column_cb($item) {
-        return sprintf(
-            '<input type="checkbox" name="tareas[]" value="%s" />',
-            $item['id']
-            );
+        if (!isset($_GET['proyecto_id'])) {
+            return sprintf(
+                '<input type="checkbox" name="tareas[]" value="%s" />',
+                $item['id']
+                );
+        }
     }
     
     function column_name($item) {
@@ -93,13 +114,16 @@ class manusoft_bussman_tareas_list_table extends WP_List_Table {
                 'delete'    => sprintf('<a href="?page=%s&action=%s&tarea_id=%s&paged=%s">Eliminar</a>',$_REQUEST['page'],'delete',$item['id'],$this->get_pagenum()),
             );
         }
-        return sprintf('%1$s %2$s', $item['name'], $this->row_actions($actions) );
+        return sprintf('%1$s %2$s', sprintf('<b><a href="?page=%s&action=%s&tarea_id=%s&paged=%s">'.$item['name'].'</a></b>','manusoft-business_manager/inc/tasks/pages/manusoft-bussman_tareas_new.php','edit',$item['id'],$this->get_pagenum()), $this->row_actions($actions) );
+        //return sprintf('%1$s %2$s', $item['name'], $this->row_actions($actions) );
+    }
+    
+    function column_id_proyecto($item) {
+        return sprintf('%1$s', sprintf('<b><a href="?page=%s&proyecto_id=%s&paged=%s">'.manusoft_bussman_get_proyecto_name_tarea($item['id_proyecto']).'</a></b>','manusoft-business_manager/inc/tasks/pages/manusoft-bussman_proyectos_detalle.php',$item['id_proyecto'],$this->get_pagenum()));
     }
     
     function column_default($item,$column_name) {
         switch ($column_name) {
-            case 'id_proyecto':
-                return manusoft_bussman_get_proyecto_name_tarea($item[$column_name]);
             case 'id_estado':
                 return manusoft_bussman_get_estado_name_tarea($item[$column_name]);
             case 'id_prioridad':
@@ -108,6 +132,7 @@ class manusoft_bussman_tareas_list_table extends WP_List_Table {
                 return manusoft_bussman_get_tipo_name_tarea($item[$column_name]);
             case 'id':
             case 'name':
+            case 'id_proyecto':
             case 'start_date':
             case 'end_date':
             case 'planned_hours':

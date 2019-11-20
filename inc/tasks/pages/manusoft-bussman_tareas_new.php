@@ -6,11 +6,11 @@ if (!current_user_can('manage_options'))  {
     $proyectos = manusoft_bussman_get_proyectos_tarea();
     $estados_tarea = manusoft_bussman_get_estados_tarea();
     $prioridades_tarea = manusoft_bussman_get_prioridades_tarea();
-    $tipos_tares = manusoft_bussman_get_tipos_tarea();
-    if ($_GET['action'] == 'edit' && isset($_GET['id'])) {
+    $tipos_tareas = manusoft_bussman_get_tipos_tarea();
+    if ($_GET['action'] == 'edit' && isset($_GET['tarea_id'])) {
         $nuevo_edit = "Editar";
         $crear_guardar = "Guardar";
-        $tarea = manusoft_bussman_get_tarea($_GET['id']);
+        $tarea = manusoft_bussman_get_tarea($_GET['tarea_id']);
     } else {
         $nuevo_edit = "Nueva";
         $crear_guardar = "Crear";
@@ -54,7 +54,7 @@ if (!current_user_can('manage_options'))  {
         								<td>
         									<select name="id_tipo">
         								<?php
-        								    foreach ($tipos_tares as $tipo_tarea) {
+        								    foreach ($tipos_tareas as $tipo_tarea) {
     								    ?>
             								    <option value="<?php echo $tipo_tarea['id']; ?>" <?php if ($tarea['id_tipo'] == $tipo_tarea['id']) { echo "selected"; } ?>><?php echo $tipo_tarea['name']; ?></option>
     								    <?php

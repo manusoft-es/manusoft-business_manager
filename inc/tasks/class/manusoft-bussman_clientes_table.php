@@ -74,7 +74,7 @@ class manusoft_bussman_clientes_list_table extends WP_List_Table {
             'edit'      => sprintf('<a href="?page=%s&action=%s&cliente_id=%s&paged=%s">Editar</a>','manusoft-business_manager/inc/tasks/pages/manusoft-bussman_clientes_new.php','edit',$item['id'],$this->get_pagenum()),
             'delete'    => sprintf('<a href="?page=%s&action=%s&cliente_id=%s&paged=%s">Eliminar</a>',$_REQUEST['page'],'delete',$item['id'],$this->get_pagenum()),
         );
-        return sprintf('%1$s %2$s', $item['name'], $this->row_actions($actions) );
+        return sprintf('%1$s %2$s', sprintf('<b><a href="?page=%s&cliente_id=%s&paged=%s">'.$item['name'].'</a></b>','manusoft-business_manager/inc/tasks/pages/manusoft-bussman_clientes_detalle.php',$item['id'],$this->get_pagenum()), $this->row_actions($actions) );
     }
     
     function column_default($item,$column_name) {

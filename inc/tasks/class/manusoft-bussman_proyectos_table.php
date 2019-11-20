@@ -42,7 +42,6 @@ class manusoft_bussman_proyectos_list_table extends WP_List_Table {
         ));
 
         $sortable = $this->get_sortable_columns();
-
         $this->_column_headers = array($columns, $hidden, $sortable);
         $this->items = manusoft_bussman_get_proyectos($perPage, $currentPage, $_GET['orderby'], $_GET['order'], $_GET['s']);
         $this->process_bulk_action();
