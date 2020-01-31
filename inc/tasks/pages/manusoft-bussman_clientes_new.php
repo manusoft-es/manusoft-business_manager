@@ -2,7 +2,7 @@
 defined('ABSPATH') or die('No tienes permiso para hacer eso.');
 if (!current_user_can('manage_options'))  {
     wp_die( __('No tienes suficientes permisos para acceder a esta página.') );
-} else {
+} else {    
     if ($_GET['action'] == 'edit' && isset($_GET['cliente_id'])) {
         $nuevo_edit = "Editar";
         $crear_guardar = "Guardar";

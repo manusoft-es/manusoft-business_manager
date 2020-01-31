@@ -8,7 +8,10 @@ function manusoft_bussman_count_proyectos($search = "") {
             FROM ".$wpdb->prefix."manusoft_bussman_proyectos p
             INNER JOIN ".$wpdb->prefix."manusoft_bussman_clientes c ON (c.id = p.id_cliente)
             INNER JOIN ".$wpdb->prefix."manusoft_bussman_estados_proyecto ep ON (ep.id = p.id_estado)
-            WHERE p.name LIKE '%".$search."%' OR c.name LIKE '%".$search."%' OR ep.name LIKE '%".$search."%'";
+            WHERE (p.name LIKE '%".$search."%' OR c.name LIKE '%".$search."%' OR ep.name LIKE '%".$search."%') ";
+    if (isset($_GET['cliente_id']) && $_GET['cliente_id'] != "") {
+        $sql .= "AND p.id_cliente = ".$_GET['cliente_id']." ";
+    }
     $res = $wpdb->get_var($sql);
     return $res;
 }
@@ -20,7 +23,10 @@ function manusoft_bussman_get_proyectos($per_page = 5, $page_number = 1, $order_
             FROM ".$wpdb->prefix."manusoft_bussman_proyectos p
             INNER JOIN ".$wpdb->prefix."manusoft_bussman_clientes c ON (c.id = p.id_cliente)
             INNER JOIN ".$wpdb->prefix."manusoft_bussman_estados_proyecto ep ON (ep.id = p.id_estado)
-            WHERE p.name LIKE '%".$search."%' OR c.name LIKE '%".$search."%' OR ep.name LIKE '%".$search."%' ";
+            WHERE (p.name LIKE '%".$search."%' OR c.name LIKE '%".$search."%' OR ep.name LIKE '%".$search."%') ";
+    if (isset($_GET['cliente_id']) && $_GET['cliente_id'] != "") {
+        $sql .= "AND p.id_cliente = ".$_GET['cliente_id']." ";
+    }
     if ($order_by != "" && $order != "") {
         $sql .= "ORDER BY ".$order_by." ".$order." ";
     }

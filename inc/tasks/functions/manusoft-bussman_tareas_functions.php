@@ -4,7 +4,11 @@ defined('ABSPATH') or die('No tienes permiso para hacer eso');
 // Método para obtener el total de tareas registradas en el sistema
 function manusoft_bussman_count_tareas($search = "", $project_id = "") {
     global $wpdb;
-    $sql = "SELECT COUNT(*) FROM ".$wpdb->prefix."manusoft_bussman_tareas WHERE name LIKE '%".$search."%'";
+    $sql = "SELECT COUNT(*) FROM ".$wpdb->prefix."manusoft_bussman_tareas t ";
+    if (isset($_GET['cliente_id']) && $_GET['cliente_id'] != "") {
+        $sql .= "INNER JOIN ".$wpdb->prefix."manusoft_bussman_proyectos p ON (p.id = t.id_proyecto AND p.id_cliente = ".$_GET['cliente_id'].") ";
+    }
+    $sql .= "WHERE t.name LIKE '%".$search."%'";
     if ($project_id != "") {
         $sql .= "WHERE id_proyecto = ".$project_id.";";
     } else {
@@ -17,9 +21,25 @@ function manusoft_bussman_count_tareas($search = "", $project_id = "") {
 // Método para obtener todos los datos de todos los tareas registradas en el sistema
 function manusoft_bussman_get_tareas($per_page = 5, $page_number = 1, $order_by, $order, $search, $project_id = "") {
     global $wpdb;
-    $sql = "SELECT * FROM ".$wpdb->prefix."manusoft_bussman_tareas WHERE name LIKE '%".$search."%' ";
+    $sql = "SELECT
+                t.id AS id,
+                t.name AS name,
+                t.description AS description,
+                t.id_proyecto AS id_proyecto,
+                t.id_estado AS id_estado,
+                t.id_prioridad AS id_prioridad,
+                t.id_tipo AS id_tipo,
+                t.start_date AS start_date,
+                t.end_date AS end_date,
+                t.planned_hours AS planned_hours,
+                t.used_hours AS used_hours
+            FROM ".$wpdb->prefix."manusoft_bussman_tareas t ";
+    if (isset($_GET['cliente_id']) && $_GET['cliente_id'] != "") {
+        $sql .= "INNER JOIN ".$wpdb->prefix."manusoft_bussman_proyectos p ON (p.id = t.id_proyecto AND p.id_cliente = ".$_GET['cliente_id'].") ";
+    }
+    $sql .= "WHERE t.name LIKE '%".$search."%' ";
     if ($project_id != "") {
-        $sql .= "AND id_proyecto = ".$project_id." ";
+        $sql .= "AND t.id_proyecto = ".$project_id." ";
     }
     if ($order_by != "" && $order != "") {
         $sql .= "ORDER BY ".$order_by." ".$order." ";
